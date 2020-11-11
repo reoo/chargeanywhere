@@ -15,8 +15,10 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioGroup;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.raulomana.chargeanywhere.databinding.ActivityMainBinding;
 import com.raulomana.chargeanywhere.db.Listing;
 import com.raulomana.chargeanywhere.list.ListingsAdapter;
@@ -81,5 +83,25 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Lis
             adapter.setListings(listings);
             adapter.notifyDataSetChanged();
         }
+
+
+        Observer<Listing> lastItemObserver = new Observer<Listing>() {
+            @Override
+            public void onChanged(Listing listing) {
+                viewModel.getLast().removeObserver(this);
+                Integer lastId = viewModel.getLastId();
+                if(lastId == null) {
+                    viewModel.setLastId(listing.id);
+                } else if(lastId != listing.id) {
+                    viewModel.setLastId(listing.id);
+                    Snackbar.make(binding.mainRadioGroup,
+                            getString(R.string.item_added_feedback, listing.name, listing.id), Snackbar.LENGTH_INDEFINITE)
+                            .setAction(R.string.cancel, view -> {
+                            })
+                            .show();
+                }
+            }
+        };
+        viewModel.getLast().observe(this, lastItemObserver);
     }
 }

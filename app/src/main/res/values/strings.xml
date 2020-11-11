@@ -3,4 +3,6 @@
     <string name="main_menu_sort_by_name">Sort by name</string>
     <string name="main_menu_sort_by_date">Sort by date</string>
     <string name="main_menu_sort_by_id">Sort by id</string>
+    <string name="item_added_feedback">%s with id=%d added</string>
+    <string name="cancel">Dismiss</string>
 </resources>
