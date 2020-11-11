@@ -25,18 +25,15 @@ public class ListingsListViewModel extends AndroidViewModel {
     }
 
     @NonNull
-    public LiveData<List<Listing>> sortListingsById() {
-        return dataBase.listingDAO().getAllSortById();
-    }
-
-    @NonNull
-    public LiveData<List<Listing>> sortListingsByName() {
-        return dataBase.listingDAO().getAllSortByName();
-    }
-
-    @NonNull
-    public LiveData<List<Listing>> sortListingsByDate() {
-        return dataBase.listingDAO().getAllSortByDate();
+    public LiveData<List<Listing>> sortListingsBy(int sortBy) {
+        if(SORT_BY_ID == sortBy) {
+            return dataBase.listingDAO().getAllSortById();
+        } else if(SORT_BY_NAME == sortBy) {
+            return dataBase.listingDAO().getAllSortByName();
+        } else if(SORT_BY_DATE == sortBy) {
+            return dataBase.listingDAO().getAllSortByDate();
+        }
+        return dataBase.listingDAO().getAll();
     }
 
 }

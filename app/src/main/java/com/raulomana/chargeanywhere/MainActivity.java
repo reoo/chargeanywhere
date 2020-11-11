@@ -44,11 +44,11 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Lis
 
         binding.mainRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> {
             if(R.id.main_checkbox_sort_by_id == checkedId) {
-                viewModel.sortListingsById().observe(this, this);
+                viewModel.sortListingsBy(ListingsListViewModel.SORT_BY_ID).observe(this, this);
             } else if(R.id.main_checkbox_sort_by_name == checkedId) {
-                viewModel.sortListingsByName().observe(this, this);
+                viewModel.sortListingsBy(ListingsListViewModel.SORT_BY_NAME).observe(this, this);
             } else if(R.id.main_checkbox_sort_by_date == checkedId) {
-                viewModel.sortListingsByDate().observe(this, this);
+                viewModel.sortListingsBy(ListingsListViewModel.SORT_BY_DATE).observe(this, this);
             }
         });
         binding.mainRadioGroup.check(R.id.main_checkbox_sort_by_id);
