@@ -3,6 +3,8 @@ package com.raulomana.chargeanywhere.list;
 import com.raulomana.chargeanywhere.databinding.ItemListingBinding;
 import com.raulomana.chargeanywhere.db.Listing;
 
+import org.threeten.bp.format.DateTimeFormatter;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +31,9 @@ public class ListingHolder extends RecyclerView.ViewHolder {
         if (binding != null) {
             binding.itemListingId.setText("" + listing.id);
             binding.itemListingName.setText(listing.name);
-            binding.itemListingDate.setText(listing.date);
+            if(listing.date != null) {
+                binding.itemListingDate.setText(listing.date.format(DateTimeFormatter.RFC_1123_DATE_TIME));
+            }
         }
     }
 

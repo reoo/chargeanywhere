@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 public class StorageService extends IntentService {
     public static final String TAG = StorageService.class.getSimpleName();
 
-    public static final long TRIGGER_AT_IN_MILLIS = TimeUnit.SECONDS.toMillis(10);
+    public static final long TRIGGER_AT_IN_MILLIS = TimeUnit.MINUTES.toMillis(1);
 
     @NonNull
     private AppDataBase dataBase;

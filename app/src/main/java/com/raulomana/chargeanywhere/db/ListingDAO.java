@@ -20,10 +20,12 @@ public interface ListingDAO {
     @Query("SELECT * FROM listing ORDER BY name")
     LiveData<List<Listing>> getAllSortByName();
 
-    @Query("SELECT * FROM listing ORDER BY date")
+    @Query("SELECT * FROM listing ORDER BY datetime(date) DESC")
     LiveData<List<Listing>> getAllSortByDate();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long save(@NonNull Listing listing);
 
+    @Query("SELECT * FROM listing ORDER BY id DESC LIMIT 1")
+    LiveData<Listing> getLast();
 }

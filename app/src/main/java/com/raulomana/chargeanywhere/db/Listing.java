@@ -1,6 +1,10 @@
 package com.raulomana.chargeanywhere.db;
 
-import androidx.room.ColumnInfo;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,16 +12,18 @@ import androidx.room.PrimaryKey;
 public class Listing {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    @ColumnInfo(name = "name")
+    @NonNull
     public String name;
-    @ColumnInfo(name = "date")
-    public String date;
+    @Nullable
+    public OffsetDateTime date;
 
     public Listing() {
     }
 
-    public Listing(String name, String date) {
+    public Listing(@NonNull String name, @Nullable String date) {
         this.name = name;
-        this.date = date;
+        if(date != null) {
+            this.date = DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse(date, OffsetDateTime::from);
+        }
     }
 }
