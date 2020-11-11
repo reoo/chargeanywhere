@@ -13,6 +13,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.RadioGroup;
 
 import com.raulomana.chargeanywhere.databinding.ActivityMainBinding;
 import com.raulomana.chargeanywhere.db.Listing;
@@ -21,7 +24,7 @@ import com.raulomana.chargeanywhere.list.ListingsListViewModel;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Observer<List<Listing>> {
     @NonNull
     private ActivityMainBinding binding;
     @NonNull
@@ -38,19 +41,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         viewModel = new ListingsListViewModel(getApplication());
-        viewModel.getListings().observe(this, new Observer<List<Listing>>() {
-            @Override
-            public void onChanged(List<Listing> listings) {
-                if(adapter == null) {
-                    adapter = new ListingsAdapter(listings, null);
-                    binding.mainItemsList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    binding.mainItemsList.setAdapter(adapter);
-                } else {
-                    adapter.setListings(listings);
-                    adapter.notifyDataSetChanged();
-                }
+
+        binding.mainRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> {
+            if(R.id.main_checkbox_sort_by_id == checkedId) {
+                viewModel.sortListingsById().observe(this, this);
+            } else if(R.id.main_checkbox_sort_by_name == checkedId) {
+                viewModel.sortListingsByName().observe(this, this);
+            } else if(R.id.main_checkbox_sort_by_date == checkedId) {
+                viewModel.sortListingsByDate().observe(this, this);
             }
         });
+        binding.mainRadioGroup.check(R.id.main_checkbox_sort_by_id);
 
         Intent intent = new Intent(this, StorageService.class);
         PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, 0);
@@ -67,6 +68,18 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_NO_CREATE);
         if (pendingIntent != null && alarmManager != null) {
             alarmManager.cancel(pendingIntent);
+        }
+    }
+
+    @Override
+    public void onChanged(List<Listing> listings) {
+        if(adapter == null) {
+            adapter = new ListingsAdapter(listings, null);
+            binding.mainItemsList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            binding.mainItemsList.setAdapter(adapter);
+        } else {
+            adapter.setListings(listings);
+            adapter.notifyDataSetChanged();
         }
     }
 }

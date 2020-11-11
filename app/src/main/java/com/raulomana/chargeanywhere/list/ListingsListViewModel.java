@@ -12,20 +12,31 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 public class ListingsListViewModel extends AndroidViewModel {
+    public static final int SORT_BY_ID = 0;
+    public static final int SORT_BY_NAME = 1;
+    public static final int SORT_BY_DATE = 2;
+
     @NonNull
     private AppDataBase dataBase;
-    @NonNull
-    private LiveData<List<Listing>> listings;
 
     public ListingsListViewModel(@NonNull Application application) {
         super(application);
         dataBase = AppDataBase.getInstance(application);
-        listings = dataBase.listingDAO().getAll();
     }
 
     @NonNull
-    public LiveData<List<Listing>> getListings() {
-        return listings;
+    public LiveData<List<Listing>> sortListingsById() {
+        return dataBase.listingDAO().getAllSortById();
+    }
+
+    @NonNull
+    public LiveData<List<Listing>> sortListingsByName() {
+        return dataBase.listingDAO().getAllSortByName();
+    }
+
+    @NonNull
+    public LiveData<List<Listing>> sortListingsByDate() {
+        return dataBase.listingDAO().getAllSortByDate();
     }
 
 }
