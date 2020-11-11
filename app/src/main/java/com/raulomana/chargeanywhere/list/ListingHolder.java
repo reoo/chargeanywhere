@@ -24,16 +24,11 @@ public class ListingHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bindHeader(int type) {
-    }
-
     public void bind(@NonNull Listing listing) {
-        if (binding != null) {
-            binding.itemListingId.setText("" + listing.id);
-            binding.itemListingName.setText(listing.name);
-            if(listing.date != null) {
-                binding.itemListingDate.setText(listing.date.format(DateTimeFormatter.RFC_1123_DATE_TIME));
-            }
+        binding.itemListingId.setText(String.valueOf(listing.id));
+        binding.itemListingName.setText(listing.name);
+        if(listing.date != null) {
+            binding.itemListingDate.setText(listing.date.format(DateTimeFormatter.RFC_1123_DATE_TIME));
         }
     }
 

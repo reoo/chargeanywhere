@@ -42,6 +42,7 @@ public class ListingsListViewModel extends AndroidViewModel {
         return listings;
     }
 
+    // methods for displaying the Snackbar message
     @NonNull
     public LiveData<Listing> getLast() {
         return dataBase.listingDAO().getLast();

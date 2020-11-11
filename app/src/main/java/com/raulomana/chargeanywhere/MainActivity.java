@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Lis
         });
         binding.mainRadioGroup.check(R.id.main_checkbox_sort_by_id);
 
+        // init service to populate db each minute
         Intent intent = new Intent(this, StorageService.class);
         PendingIntent alarmIntent = PendingIntent.getService(this, 0, intent, 0);
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -82,9 +83,11 @@ public class MainActivity extends AppCompatActivity implements Observer<List<Lis
         } else {
             adapter.setListings(listings);
             adapter.notifyDataSetChanged();
+            binding.mainItemsList.scrollToPosition(listings.size() - 1);
         }
 
 
+        // show feedback(snackbar) to the user so he will be aware what element was just added
         Observer<Listing> lastItemObserver = new Observer<Listing>() {
             @Override
             public void onChanged(Listing listing) {

@@ -37,22 +37,14 @@ public class ListingsAdapter extends RecyclerView.Adapter<ListingHolder> {
     @NonNull
     @Override
     public ListingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        if(R.layout.item_book_header == viewType) {
-//            ItemBookHeaderBinding binding = ItemBookHeaderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-//            return new ListingHolder(binding.getRoot(), binding);
-//        }
         ItemListingBinding binding = ItemListingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ListingHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ListingHolder holder, int position) {
-//        if(R.layout.item_book_header == layout) {
-//            holder.bindHeader(positionToHeaderType.get(position));
-//        } else {
-            Listing listing = listings.get(position);
-            holder.bind(listing);
-//        }
+        Listing listing = listings.get(position);
+        holder.bind(listing);
     }
 
     @Override
